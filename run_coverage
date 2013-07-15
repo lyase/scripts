@@ -1,0 +1,8 @@
+#find -iname *.gcda -exec rm {} \;
+make -j4 && \
+./unittests && \
+lcov -i -c -d . -o coverage.info && \
+lcov -c -d . -o coverage.info && \
+lcov -r coverage.info "/usr*" -o coverage.info && \
+lcov -r coverage.info "*/local_date_time/*" -o coverage.info && \
+genhtml --no-branch-coverage --demangle-cpp -o html coverage.info
