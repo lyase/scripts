@@ -1,0 +1,22 @@
+if [ -e ".coverage_rc" ]
+then
+	source .coverage_rc
+fi
+
+if [ -z ${EXCLUDES+x} ]
+then 
+	EXCLUDES=
+fi
+
+if [ -z ${FILENAME+x} ]
+then 
+	FILENAME=./unittests
+fi
+
+make -j4 && \
+"$FILENAME" && \
+lcov -i -c -d . -o coverage.info && \
+lcov -c -d . -o coverage.info && \
+lcov -r coverage.info "/usr*" -o coverage.info && \
+lcov -r coverage.info $EXCLUDES -o coverage.info && \
+genhtml --no-branch-coverage --demangle-cpp -o html coverage.info
